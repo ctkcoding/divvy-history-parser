@@ -13,21 +13,37 @@ with open(html_file, 'r', encoding='utf-8') as f:
 # todo - initial parsing of entire file
 output_json_dict = html_to_json.convert(html_string)
 json_string = json.dumps(output_json_dict, indent=4)
+
+# todo - every field i want
+# price? basically useless, most are free
+# duration? compute from start and end time
+
+# date      sc-cx1xxi-0 eOzbdu
+
+# start     Components__Start-sc-1yewqdd-0 bSShsJ
+# .station  sc-cx1xxi-0 bRSchk
+# .time     Components__TextMuted-sc-19oq86k-0 bepYxb
+
+# end       Components__End-sc-1yewqdd-1 dUHFFN
+# .station  sc-cx1xxi-0 bRSchk
+# .time     Components__TextMuted-sc-19oq86k-0 bepYxb
+
 print(json_string)
 
 
 # Find the specific table you want to extract (adjust selectors as needed)
-# divvy_trips = soup.select('div[class*="Components__Wrapper"]')
+divvy_trips = soup.select('div[class*="Components__Wrapper"]')
 
+print(f"Data elements count:'{len(divvy_trips)}'")
 
-# print(f"Data elements count:'{len(divvy_trips)}'")
+if not divvy_trips:
+    print(f"Fields not found in {html_file}")
+    sys.exit(1)
 
-# if not divvy_trips:
-#     print(f"Fields not found in {html_file}")
-#     sys.exit(1)
-
-# for trip in divvy_trips:
-#     print(f"Data:'{trip.get_text}'")
+for trip in divvy_trips:
+    output_json_dict = html_to_json.convert(html_string)
+    json_string = json.dumps(output_json_dict, indent=4)
+    print(f"Data:'{trip.get_text}'")
 
 # # Open the CSV file for writing
 # with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
