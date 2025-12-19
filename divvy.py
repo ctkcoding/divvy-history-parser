@@ -1,26 +1,33 @@
 import sys
 import csv
+import html_to_json
+import json
 from bs4 import BeautifulSoup
 
 html_file = sys.argv[1]
+csv_file = "outputs/{html_file}.csv"
 
-
-#, csv_file):
 with open(html_file, 'r', encoding='utf-8') as f:
-    soup = BeautifulSoup(f, 'html.parser')
+    html_string = f.read()
+
+# todo - initial parsing of entire file
+output_json_dict = html_to_json.convert(html_string)
+json_string = json.dumps(output_json_dict, indent=4)
+print(json_string)
+
 
 # Find the specific table you want to extract (adjust selectors as needed)
-divvy_trips = soup.select('div[class*="Components__Wrapper"]')
+# divvy_trips = soup.select('div[class*="Components__Wrapper"]')
 
 
-print(f"Data elements count:'{len(divvy_trips)}'")
+# print(f"Data elements count:'{len(divvy_trips)}'")
 
-if not divvy_trips:
-    print(f"Fields not found in {html_file}")
-    sys.exit(1)
+# if not divvy_trips:
+#     print(f"Fields not found in {html_file}")
+#     sys.exit(1)
 
-for trip in divvy_trips:
-    print(f"Data:'{trip.get_text}'")
+# for trip in divvy_trips:
+#     print(f"Data:'{trip.get_text}'")
 
 # # Open the CSV file for writing
 # with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
