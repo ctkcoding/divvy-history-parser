@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Page-HTML-Ripper",
+  "version": "1.0",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon-id@example.com",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "description": "Download the full HTML of the current page.",
+  "icons": {
+    "19": "icons/icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "scripting",
+    "downloads",
+    "activetab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}

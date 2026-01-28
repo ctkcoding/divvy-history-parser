@@ -209,3 +209,5 @@ __marimo__/
 # Local data
 data/*
 output.csv
+
+/web-extension/web-ext-artifacts/*
