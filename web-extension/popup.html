@@ -5,11 +5,25 @@
   <title>Page Ripper</title>
   <style>
     body {font-family:Arial,sans-serif; margin:0; padding:10px;}
-    button {font-size:1rem; padding:0.5rem 1rem;}
+    button {font-size:1rem; padding:0.5rem 1rem; margin-right:6px;}
+    #progressContainer {margin-top:8px;}
+    #progressBarContainer {background:#e0e0e0; border-radius:4px; height:6px; width:100%; overflow:hidden;}
+    #progressBarFill {background:#4caf50; height:100%; width:0%; transition:width 0.2s;}
+    #progressText {font-size:0.9rem; margin-top:2px; text-align:center;}
   </style>
 </head>
 <body>
   <button id="ripBtn">Rip Page</button>
+  <button id="showMoreBtn">Show More</button>
+  <button id="rideOverviewBtn">Ride Overview</button>
+
+  <div id="progressContainer">
+    <div id="progressBarContainer">
+      <div id="progressBarFill"></div>
+    </div>
+    <div id="progressText">0 clicks</div>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
