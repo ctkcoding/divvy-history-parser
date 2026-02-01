@@ -74,21 +74,43 @@ function runShowMore() {
 }
 
 function runRideOverview() {
-  const selector = 'div[data-testid="DATA_TESTID_RIDE_OVERVIEW_CARD"]';
-  const cards = Array.from(document.querySelectorAll(selector));
+  // selector for the "Ride Overview" buttons
+  const selector = 'button[data-testid="core-ui-icon-button"]';
+  const CLICK_DELAY_MS = 500;
   let clickCount = 0;
-  const delay = ms => new Promise(r => setTimeout(r, ms));
 
-  async function processCards() {
-    for (const card of cards) {
-      // card.click(); // optional
+  async function sequence() {
+    const buttons = Array.from(document.querySelectorAll(selector));
+    if (buttons.length === 0) {
+      chrome.runtime.sendMessage({ type: 'rideOverviewFinished', count: 0 });
+      return;
+    }
+
+    // Click the first button
+    const firstBtn = buttons[0];
+    if (!firstBtn.disabled && firstBtn.getAttribute('aria-disabled') !== 'true') {
+      firstBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
       clickCount++;
       chrome.runtime.sendMessage({ type: 'rideOverviewProgress', count: clickCount });
-      await delay(200);
+      console.log('Ride Overview click', clickCount, '(first)');
+      await new Promise(r => setTimeout(r, CLICK_DELAY_MS));
     }
+
+    // Click remaining buttons
+    for (let i = 1; i < buttons.length; i++) {
+      const btn = buttons[i];
+      if (btn.disabled || btn.getAttribute('aria-disabled') === 'true') break;
+      btn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      clickCount++;
+      chrome.runtime.sendMessage({ type: 'rideOverviewProgress', count: clickCount });
+
+      console.log('Ride Overview click', clickCount);
+      await new Promise(r => setTimeout(r, CLICK_DELAY_MS));
+    }
+
     chrome.runtime.sendMessage({ type: 'rideOverviewFinished', count: clickCount });
   }
-  processCards();
+  sequence();
 }
 
 async function handleShowMore() {
